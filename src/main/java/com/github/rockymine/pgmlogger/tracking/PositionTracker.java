@@ -161,8 +161,7 @@ public class PositionTracker {
       int heldItem = killer.getItemInHand().getType().ordinal();
       int invCount = countInventoryItems(killer);
 
-      queueWrite(
-          MatchEvent.kill(time, killerId, kx, ky, kz, heldItem, invCount, victimId));
+      queueWrite(MatchEvent.kill(time, killerId, kx, ky, kz, heldItem, invCount, victimId));
     }
   }
 
