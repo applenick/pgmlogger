@@ -5,6 +5,10 @@ plugins {
 
 group = "com.github.rockymine"
 version = "1.1.0"
+val gitHash = providers.exec {
+    commandLine("git", "rev-parse", "--short", "HEAD")
+}.standardOutput.asText.map { it.trim() }
+val versionWithHash = gitHash.map { "${project.version}-$it" }
 
 repositories {
     mavenCentral()
@@ -26,6 +30,12 @@ tasks.jar {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
     from("src/main/resources")
+}
+
+tasks.processResources {
+    filesMatching("plugin.yml") {
+        expand("versionWithHash" to versionWithHash.get())
+    }
 }
 
 spotless {
